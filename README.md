@@ -21,6 +21,7 @@ The project is a static website with the following structure:
 
 ```
 .
+Prayag_25/
 ├── automation_bootcamp.html
 ├── capture_the_flag.html
 ├── code-conquest.html
