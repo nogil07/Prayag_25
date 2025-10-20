@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Idea Pitch | Prayag 25</title>
-    <link rel="icon" type="image/png" href="images/dune1.png">
+    <title>Capture The Flag | Prayag</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/style/event_pg.css">
+    <link rel="icon" type="image/png" href="images/dune1.png">
+    <style>
+        /* Optional: Add a static background image if a video isn't suitable for the desert theme */
+        body {
+            background-image: url('public/ctf.jpg'); /* Replace with a real background image URL */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 <body>
-    <video autoplay loop muted id="video-background"><source src="public/idea.mp4" type="video/mp4"></video>
+    <!-- 
+        The original template used a video background. 
+        It has been removed and replaced with a static background image suggestion in the <style> tag above 
+        to better match the poster's desert theme. 
+    -->
+
     <!-- Custom Cursor -->
     <div class="custom-cursor" id="customCursor"></div>
 
@@ -27,11 +41,8 @@
         <header class="header">
             <div class="header-line"></div>
             <h1 class="main-title">
-                <span class="title-word">IDEA PITCH</span>
+                <span class="title-word">CAPTURE THE FLAG</span>
             </h1>
-            <!-- <h1 class="main-title">
-                <span class="title-word title-delayed">VICTORY</span>
-            </h1> -->
             <div class="header-line-bottom"></div>
         </header>
 
@@ -49,8 +60,8 @@
                     </div>
                     
                     <div class="section-content">
-                        <p>A contest for young innovators to display their groundbreaking <span class="highlight">ideas</span> and solutions to real-world issues.</p>
-                        <p>Participants will present their concepts to a panel of judges, focusing on innovation, feasibility, and impact.</p>
+                        <p>A cybersecurity hackathon where participants compete in challenges involving cryptography, steganography, binary exploitation, reverse engineering, web exploitation, and more. </p>
+                        <p>Your mission is to navigate the digital desert, solve intricate puzzles, and find hidden 'flags' to prove your skills and capture victory!</p>
                     </div>
                 </section>
 
@@ -63,31 +74,31 @@
                     
                     <div class="rules-grid">
                         <div class="rule-item">
-                            <div class="rule-icon">🎮</div>
+                            <div class="rule-icon">💻</div>
                             <div class="rule-content">
-                                <div class="rule-label">Presentation time</div>
-                                <div class="rule-value">10 minutes + Q&A</div>
+                                <div class="rule-label">Format</div>
+                                <div class="rule-value">Jeopardy-Style CTF</div>
                             </div>
                         </div>
                         <div class="rule-item">
                             <div class="rule-icon">👥</div>
                             <div class="rule-content">
                                 <div class="rule-label">Team Size</div>
-                                <div class="rule-value">2-3 members</div>
+                                <div class="rule-value">1-3 Members</div>
                             </div>
                         </div>
                         <div class="rule-item">
                             <div class="rule-icon">🏆</div>
                             <div class="rule-content">
-                                <div class="rule-label">Submissions</div>
-                                <div class="rule-value">Submissions must be original ideas</div>
+                                <div class="rule-label">System Requirement</div>
+                                <div class="rule-value">System will be provided</div>
                             </div>
                         </div>
                         <div class="rule-item">
                             <div class="rule-icon">⭐</div>
                             <div class="rule-content">
-                                <div class="rule-label">Presentation</div>
-                                <div class="rule-value">A slide deck (PPT/PDF) is mandatory</div>
+                                <div class="rule-label">Requirement</div>
+                                <div class="rule-value">Problem-Solving Mindset</div>
                             </div>
                         </div>
                     </div>
@@ -107,22 +118,16 @@
                     <!-- Status Items -->
                     <div class="status-items">
                         
-                        <!-- Prize Pool -->
-                        <div class="status-item prize-pool">
-                            <div class="status-icon">🏆</div>
-                            <div class="status-content">
-                                <div class="status-label">Prize Pool</div>
-                                <div class="status-value">₹30,000</div>
-                            </div>
-                        </div>
-
                         <!-- Field Contact -->
                         <div class="status-item">
                             <div class="status-icon">📞</div>
                             <div class="status-content">
                                 <div class="status-label">Field Contact</div>
-                                <div class="status-value">Treessa Joy</div>
-                                <div class="status-sub">7034086391</div>
+                                <div class="status-value">Maheswar</div>
+                                <div class="status-sub">7736903562</div>
+                                <br>
+                                <div class="status-value">Rodic</div>
+                                <div class="status-sub">8129537717</div> 
                             </div>
                         </div>
 
@@ -132,16 +137,25 @@
                             <div class="status-content">
                                 <div class="status-label">Timeline</div>
                                 <div class="status-value">Sept 19, 2025</div>
-                                <div class="status-sub">10:00 AM</div>
+                                <div class="status-sub">1:00 PM</div>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="status-item">
+                            <div class="status-icon">📍</div>
+                            <div class="status-content">
+                                <div class="status-label">Venue</div>
+                                <div class="status-value">AI LAB</div>
                             </div>
                         </div>
 
                         <!-- Registration Status -->
                         <div class="status-item registration-status">
-                            <div class="status-icon pulse">🟢</div>
+                            <div class="status-icon pulse">🟢</div>x
                             <div class="status-content">
                                 <div class="status-label">Registration</div>
-                                <div class="status-value open">OPEN</div>
+                                <div class="status-value open">OPEN [ONLY FOR STUDENTS OF ASIET] 200 per team</div>
                             </div>
                         </div>
                     </div>
@@ -155,15 +169,15 @@
                         <span class="btn-text">REGISTER NOW</span>
                         <span class="btn-icon">⚡</span>
                     </a>
-                    <a href="rules_event/Idea_Pitch_Rules_and_Regulations_final.pdf" 
-                    download="Prayag25_idea_pitch_rules.pdf"
+                    <a href="rules_event/CAPTURE THE FLAG.pdf" 
+                    download="CAPTURE THE FLAG"
                     class="register-btn download-btn">
                         <span class="btn-icon">📄</span>
                         <span class="btn-text">DOWNLOAD RULES</span>
                         <span class="btn-icon">📄</span>
                      </a>
                 </div>
-            </div> 
+            </div>
         </div>
 
         <!-- Footer -->
@@ -174,7 +188,7 @@
                     Return to Trials
                 </a>
             </div>
-            <p class="footer-text">© 2025 Idea Pitch. The spice must flow. All rights reserved.</p>
+            <p class="footer-text">© 2025 Capture The Flag. Department of AI & Data Science. All rights reserved.</p>
         </footer>
     </div>
 
