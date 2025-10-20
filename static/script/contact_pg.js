@@ -1,183 +1,241 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- Navbar Functionality ---
-    const navItems = document.querySelectorAll('.nav-item');
-    const navbar = document.querySelector('.navbar-right');
-    const hamburgerBtn = document.querySelector('.hamburger-menu');
+// Add smooth interactions and animations
+document.addEventListener('DOMContentLoaded', function() {
 
-    // Function to close the mobile menu
-    function closeMobileMenu() {
-        navbar.classList.remove('nav-open');
-        hamburgerBtn.classList.remove('is-active');
-    }
+    // Custom Cursor with Spice Trail
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    // Determine current page filename (e.g., "index.html" or "contacts.html")
-    let currentPagePath = window.location.pathname.split('/').pop();
-    if (currentPagePath === "" || currentPagePath.startsWith("#")) { // Handle root URL (e.g., mysite.com/ -> index.html) or direct hash links
-        currentPagePath = "index.html";
-    }
+    if (isTouchDevice) return;
 
-    // Set active nav item on initial page load
-    navItems.forEach(item => {
-        const link = item.querySelector('a');
-        const linkHref = link.getAttribute('href');
-        // Extract filename from href (e.g., "index.html#home" -> "index.html", "contacts.html" -> "contacts.html")
-        const linkFilename = linkHref.split('/').pop().split('#')[0];
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
 
-        if (linkFilename === currentPagePath) {
-            // Check for explicit hash if on index.html
-            if (currentPagePath === 'index.html' && linkHref.includes('#')) {
-                if (linkHref === currentPagePath + window.location.hash) {
-                     item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            } else if (!linkHref.includes('#') || currentPagePath !== 'index.html') { // For links like contacts.html or index.html without hash
-                item.classList.add('active');
-            } else {
-                 item.classList.remove('active'); // For index.html, only the specific hash should be active if it exists
-            }
-        } else {
-            item.classList.remove('active');
-        }
+    // Instant cursor movement
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
     });
 
-    // Toggle Mobile Navbar on Hamburger Click
-    hamburgerBtn.addEventListener('click', () => {
-        navbar.classList.toggle('nav-open');
-        hamburgerBtn.classList.toggle('is-active');
+    // Cursor interactions
+    const interactiveElements = document.querySelectorAll('a, button, .event-card');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+            cursor.style.background = 'rgba(212, 175, 55, 0.3)';
+        });
+
+        el.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.background = 'transparent';
+        });
     });
-
-    // Handle Navbar Item Clicks (Desktop & Mobile)
-    navItems.forEach(item => {
-        item.addEventListener('click', function(event) {
-            const link = this.querySelector('a');
-            const linkHref = link.getAttribute('href');
-            const clickedLinkFilename = linkHref.split('/').pop().split('#')[0];
-
-            // Apply ripple effect regardless of navigation type
+    // Add click animations to contact buttons
+    const contactButtons = document.querySelectorAll('.contact-btn');
+    
+    contactButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Create ripple effect
             const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
             ripple.classList.add('ripple');
             
-            const rect = this.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-
             this.appendChild(ripple);
-
-            ripple.addEventListener('animationend', () => {
-                ripple.remove();
-            });
-
-            // If the link points to the current page AND uses a hash, prevent default and scroll
-            if (clickedLinkFilename === currentPagePath && linkHref.includes('#')) {
-                event.preventDefault(); // Prevent full page reload
-                const targetId = linkHref.split('#')[1];
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-                // Manually update active class for same-page hash navigation
-                navItems.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-                // Update URL hash without page reload
-                window.history.pushState(null, '', linkHref);
-
-            } else {
-                // For links to different HTML files or external links, let default behavior happen (browser navigates)
-                // The active class will be set on the new page's DOMContentLoaded event.
-            }
             
-            // Close mobile menu if it's open (only on mobile screens)
-            if (window.getComputedStyle(hamburgerBtn).display !== 'none') {
-                closeMobileMenu();
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // Handle contact actions
+            if (this.classList.contains('email-btn')) {
+                const card = this.closest('.team-card');
+                const name = card.querySelector('.member-name').textContent;
+                handleEmailClick(name);
+            } else if (this.classList.contains('phone-btn')) {
+                const card = this.closest('.team-card');
+                const name = card.querySelector('.member-name').textContent;
+                handlePhoneClick(name);
             }
         });
     });
-
-    // Optional: Close menu if user clicks outside of it on mobile
-    document.addEventListener('click', (event) => {
-        // Check if the menu is open and the click is outside the navbar and hamburger button
-        if (navbar.classList.contains('nav-open') && 
-            !navbar.contains(event.target) && 
-            !hamburgerBtn.contains(event.target)) {
-            closeMobileMenu();
-        }
-    });
-
-    // Optional: Hide hamburger button on resize if desktop mode
-    window.addEventListener('resize', () => {
-        if (window.getComputedStyle(hamburgerBtn).display === 'none') {
-            closeMobileMenu(); // Ensure menu is closed if resizing to desktop
-        }
-    });
-
-    // --- Contact Card Animation on Scroll (for contacts.html) ---
-    const contactCards = document.querySelectorAll('.contact-card');
     
-    // THE FIX: Remove the check for "contacts.html".
-    // Now it will run on any page as long as contact cards are present.
-    if (contactCards.length > 0) {
-        // Add initial hidden class to all cards
-        contactCards.forEach(card => card.classList.add('card-hidden'));
-
-        const observerOptions = {
-            root: null, // viewport as root
-            rootMargin: '0px',
-            threshold: 0.1 // 10% of the item must be visible
-        };
-
-        const cardObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const card = entry.target;
-                    const index = Array.from(contactCards).indexOf(card);
-                    // Set a custom property for animation-delay
-                    card.style.setProperty('--animation-delay', `${index * 0.15}s`); // 0.15s delay between cards
-                    card.classList.remove('card-hidden');
-                    card.classList.add('card-visible');
-                    observer.unobserve(card); // Stop observing once animated
-                }
-            });
-        }, observerOptions);
-
-        contactCards.forEach(card => {
-            cardObserver.observe(card);
-        });
-    }
-}); 
-
-
-    // --- Interactive Contact Card Logic ---
-    const cardsWrapper = document.querySelector('.contact-cards-wrapper');
-
-    if (cardsWrapper) {
-        cardsWrapper.addEventListener('click', (event) => {
-            const icon = event.target.closest('.phone-btn, .email-btn');
-            const backBtn = event.target.closest('.back-btn');
-
-            // If an icon was clicked
-            if (icon) {
-                event.preventDefault();
-                const card = icon.closest('.contact-card');
-                const infoText = card.querySelector('.info-text');
-                const info = icon.dataset.info;
-
-                if (card && infoText && info) {
-                    infoText.textContent = info;
-                    card.classList.add('info-mode-active');
-                }
-            }
-
-            // If the back button was clicked
-            if (backBtn) {
-                event.preventDefault();
-                const card = backBtn.closest('.contact-card');
-                if (card) {
-                    card.classList.remove('info-mode-active');
-                }
+    // Add intersection observer for card animations
+    const cards = document.querySelectorAll('.team-card');
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
             }
         });
+    }, observerOptions);
+    
+    // Initially hide cards and observe them
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        cardObserver.observe(card);
+    });
+    
+    
+    // Add parallax effect to stars based on mouse movement
+    document.addEventListener('mousemove', (e) => {
+        const stars1 = document.querySelector('.stars');
+        const stars2 = document.querySelector('.stars2');
+        const stars3 = document.querySelector('.stars3');
+        
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        if (stars1) stars1.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+        if (stars2) stars2.style.transform = `translate(${x * 15}px, ${y * 15}px)`;
+        if (stars3) stars3.style.transform = `translate(${x * 5}px, ${y * 5}px)`;
+    });
+});
+
+// Handle email contact
+function handleEmailClick(name) {
+    const emails = {
+        'ABINAND B ARJUN': 'abinandbarjun7@gmail.com',
+        'KRISHNAJA TN': 'krishnajatn20@gmail.com',
+        'ABHIJITH A K': '2002abihijithak@gmail.com'
+    };
+    
+    const email = emails[name] || 'info@prayag25.live';
+    
+    showNotification(`Opening email client for ${name}`, 'email');
+    
+    setTimeout(() => {
+        window.location.href = `mailto:${email}?subject=Contact from Prayag Tech Fest 2025`;
+    }, 1000);
+}
+
+// Handle phone contact
+function handlePhoneClick(name) {
+    const phones = {
+        'ABINAND B ARJUN': '+91 83010 66741',
+        'KRISHNAJA TN': '+91 80759 60827',
+        'ABHIJITH A K': '+91 85906 95431'
+    };
+    
+    const phone = phones[name] || '+91 94462 00253';
+    
+    showNotification(`Calling ${name} at ${phone}`, 'phone');
+    
+    setTimeout(() => {
+        window.location.href = `tel:${phone.replace(/\s/g, '')}`;
+    }, 1000);
+}
+
+
+// Notification system
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-icon">
+                ${type === 'email' ? '📧' : '📞'}
+            </div>
+            <div class="notification-message">${message}</div>
+        </div>
+    `;
+    
+    // Add notification styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 3000);
+}
+
+// Add CSS for ripple effect and animations
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
     }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+    
+    .notification-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .notification-icon {
+        font-size: 1.2rem;
+    }
+    
+    .notification-message {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+`;
+
+document.head.appendChild(style);

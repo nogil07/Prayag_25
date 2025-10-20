@@ -96,18 +96,6 @@ registerBtn.addEventListener('click', (e) => {
         ripple.remove();
     }, 600);
     
-    // Simulate registration action
-    registerBtn.innerHTML = '<span class="btn-icon">✓</span><span class="btn-text">REGISTERED!</span><span class="btn-icon">✓</span>';
-    registerBtn.style.background = 'linear-gradient(90deg, #10b981, #059669)';
-    registerBtn.style.color = 'white';
-    registerBtn.style.border = '2px solid #10b981';
-    
-    setTimeout(() => {
-        registerBtn.innerHTML = '<span class="btn-icon">⚡</span><span class="btn-text">REGISTER NOW</span><span class="btn-icon">⚡</span>';
-        registerBtn.style.background = 'transparent';
-        registerBtn.style.color = 'var(--spice-gold)';
-        registerBtn.style.border = '2px solid var(--spice-gold)';
-    }, 2000);
 });
 
 // Ripple effect styles

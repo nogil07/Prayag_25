@@ -30,7 +30,7 @@ html {
 
 body {
     font-family: var(--font-body);
-    background: var(--space-black);
+    background: #000000 !important; /* Forcing black background */
     color: var(--desert-sand);
     overflow-x: hidden;
     cursor: none;
@@ -58,69 +58,29 @@ body {
 }
 
 
-
-
-
-
-/* Preloader */
-#preloader {
+/* Parallax Background & Particles */
+.parallax-bg {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    background: var(--space-black);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 1s ease, visibility 1s ease;
+    z-index: -1;
+}
+#stars-bg {
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    position: absolute;
 }
 
-.spice-loader {
-    text-align: center;
-}
 
-.spice-ring {
-    width: 80px;
-    height: 80px;
-    border: 3px solid transparent;
-    border-top: 3px solid var(--spice-gold);
-    border-radius: 50%;
-    margin: 0 auto 10px;
-    animation: spiceRotate 1s linear infinite;
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
 }
-
-.spice-ring:nth-child(2) {
-    width: 60px;
-    height: 60px;
-    border-top-color: var(--spice-orange);
-    animation-delay: 0.3s;
-    animation-duration: 1.5s;
-}
-
-.spice-ring:nth-child(3) {
-    width: 40px;
-    height: 40px;
-    border-top-color: var(--energy-blue);
-    animation-delay: 0.6s;
-    animation-duration: 2s;
-}
-
-@keyframes spiceRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loading-text {
-    font-family: var(--font-heading);
-    color: var(--spice-gold);
-    font-size: 1.2rem;
-    letter-spacing: 3px;
-    margin-top: 20px;
-    animation: textGlow 2s ease-in-out infinite;
-}
-
 
 /* Hero Section */
 .hero-section {
@@ -577,7 +537,7 @@ body {
     transform: translateY(-50%); 
     display: flex;
     flex-direction: column; /* Vertical alignment for desktop */
-    background: var(--space-black); 
+    background: #00000000; 
     border-radius: 20px; 
     padding: 15px 0; 
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.9); 
@@ -800,6 +760,7 @@ body {
 
     /* Navbar positioning and layout for mobile (Slide-in from Right, vertically centered) */
     .navbar-right {
+        position: fixed;
         right: 0;
         top: 50%; /* Vertically centered */
         transform: translateY(-50%) translateX(100%); /* Hidden off-screen to the right, maintains centering */
@@ -875,6 +836,7 @@ body {
     }
 
     .navbar-right {
+        position: fixed;
         width: 70px; /* Even narrower sidebar for very small screens */
     }
     .navbar-right li {
@@ -901,7 +863,7 @@ body {
     background-position: center;
     transform: translate(-50%, -50%);
     filter: none;
-    opacity: 0.3;
+    opacity: 1;
 }
 
 /* Tablet screens */
@@ -928,69 +890,3 @@ body {
     }
 }
 
-
-/* Parallax Background & Particles */
-.parallax-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-}
-#stars-bg {
-    width: 100%;
-    height: 100%;
-    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-    position: absolute;
-}
-
-
-/* Animated Background Particles */
-#particles-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  background: var(--desert-gradient);
-}
-
-.desert-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-/* Animated Background */
-.animated-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.sand-particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
-    animation: sandFlow 20s linear infinite;
-}
-
-@keyframes sandFlow {
-    0% { transform: translateX(-100px) translateY(-100px); }
-    100% { transform: translateX(100px) translateY(100px); }
-}

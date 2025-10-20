@@ -6,7 +6,6 @@ class DuneEventSite {
     }
 
     init() {
-        this.setupPreloader();
         this.setupCustomCursor();
         this.setupScrollAnimations();
         this.setupNavigation();
@@ -17,38 +16,7 @@ class DuneEventSite {
     }
 
     // Preloader with Spice Animation
-    setupPreloader() {
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            const loadingText = document.querySelector('.loading-text');
-            
-            // Animate loading text
-            const messages = [
-                'AWAKENING THE SPICE',
-                'INITIALIZING SYSTEMS',
-                'CONNECTING TO ARRAKIS',
-                'PREPARING THE CONVERGENCE'
-            ];
-            
-            let messageIndex = 0;
-            const messageInterval = setInterval(() => {
-                loadingText.style.opacity = '0';
-                setTimeout(() => {
-                    loadingText.textContent = messages[messageIndex];
-                    loadingText.style.opacity = '1';
-                    messageIndex = (messageIndex + 1) % messages.length;
-                }, 300);
-            }, 1500);
 
-            // Hide preloader after 4 seconds
-            setTimeout(() => {
-                clearInterval(messageInterval);
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-                this.animateHeroTitle();
-            }, 4000);
-        });
-    }
 
     // Custom Cursor with Spice Trail
     setupCustomCursor() {
@@ -385,10 +353,31 @@ class DuneUtils {
     }
 }
 
+
 // Initialize the site when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Your existing initializations
     new DuneEventSite();
-    DuneUtils.createParticles();
+    DuneUtils.createParticles(); // This might be redundant now, you can choose which particle effect to keep
+
+    // STEP 4: ADD THE PARTICLES.JS INITIALIZATION CODE HERE
+    if (document.getElementById('particles-js')) {
+        particlesJS('particles-js', {
+          "particles": {
+            "number": { "value": 150, "density": { "enable": true, "value_area": 800 } },
+            "color": { "value": "#D4AF37" }, // Using your --spice-gold variable color
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+            "size": { "value": 2.5, "random": true, "anim": { "enable": false } },
+            "line_linked": { "enable": false }, // Set to true if you want lines connecting particles
+            "move": { "enable": true, "speed": 0.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": false }, "resize": true },
+            "modes": { "repulse": { "distance": 100, "duration": 0.4 } }
+          },
+          "retina_detect": true
+        });
+    }
 });
-
-
