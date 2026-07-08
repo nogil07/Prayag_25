@@ -1,4 +1,4 @@
-# PRAYAG 2025
+# PRAYAG 2025 | https://prayag-25.netlify.app/ |
 
 **Inspire Ideas, Ignite Future**
 
